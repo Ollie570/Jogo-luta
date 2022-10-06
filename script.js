@@ -23,6 +23,7 @@ class Sprite {
 
     update() {
         this.draw()
+        this.position.x += this.velocity.x
         //this.velocity.y += gravity
         this.position.y += this.velocity.y
 
@@ -45,7 +46,6 @@ const player = new Sprite({
     }
 })
 
-
 const enemy = new Sprite({
     position: {
     x: 400,
@@ -57,9 +57,18 @@ const enemy = new Sprite({
     }
 })
 
-enemy.draw()
+console.log(player)
+//player.draw()
+//enemy.draw()
 
-console.log(player);
+const keyes = {
+    a: {
+        pressed: false
+    },
+    d: {
+        pressed: false
+    }
+}
 
 //Criando loop de animação:
 function animate() {
@@ -68,6 +77,37 @@ function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
     enemy.update()
+
+    if (keyes.a.pressed) {
+        player.velocity.x = 1
+    } else if (keyes.d.pressed) {
+        player.velocity.x = 1
+    }
 }
 
 animate()
+
+//Definindo as movimentações do teclado:
+window.addEventListener('keydown', (event) => {
+    switch (event.key) {
+      case 'd':
+        player.velocity.x = 1
+        break
+      case 'a':
+        player.velocity.x = -1
+        break
+    }
+    console.log(event.key);
+})
+
+window.addEventListener('keyup', (event) => {
+    switch (event.key) {
+        case 'd':
+            player.velocity.x = 0
+            break
+        case 'a':
+            player.velocity.x = 0
+            break
+    }
+    console.log(event.key);
+})
